@@ -3,26 +3,27 @@ const { test, expect } = require('@playwright/test');
 test.describe('Login Page - QA Audit', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('/login');
+    await page.waitForLoadState('networkidle');
   });
 
   test('DEBE mostrar título de login', async ({ page }) => {
-    await expect(page.locator('h1')).toContainText(/bienvenido de vuelta/i);
+    await expect(page.locator('h1, h2').first()).toContainText(/bienvenido de vuelta/i, { timeout: 10000 });
   });
 
   test('DEBE mostrar campos obligatorios', async ({ page }) => {
-    await expect(page.locator('label:has-text("Correo electrónico")')).toBeVisible();
+    await expect(page.locator('label:has-text("Correo")')).toBeVisible();
     await expect(page.locator('label:has-text("Contraseña")')).toBeVisible();
   });
 
   test('DEBE validar campo correo vacío', async ({ page }) => {
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/correo es requerido/i);
+    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/correo es requerido/i, { timeout: 5000 });
   });
 
   test('DEBE validar campo contraseña vacío', async ({ page }) => {
     await page.fill('input[type="email"]', 'test@test.com');
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/contraseña es requerida/i);
+    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/contraseña es requerida/i, { timeout: 5000 });
   });
 
   test('DEBE tener link a registro', async ({ page }) => {

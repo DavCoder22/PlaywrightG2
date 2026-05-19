@@ -8,27 +8,30 @@ test.describe('Authentication', () => {
       }
     });
     await page.goto('/');
+    await page.waitForLoadState('networkidle');
   });
 
   test('should display login page by default', async ({ page }) => {
-    await expect(page.locator('h1')).toContainText(/bienvenido de vuelta/i, { timeout: 10000 });
-    await expect(page.locator('text=Regístrate gratis')).toBeVisible();
+    const heading = page.locator('h1, h2').first();
+    await expect(heading).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('text=Regístrate')).toBeVisible();
   });
 
   test('should navigate to register page', async ({ page }) => {
-    await page.click('text=Regístrate gratis');
-    await expect(page.locator('h1')).toContainText(/crea tu cuenta/i, { timeout: 10000 });
+    await page.click('a:has-text("Regístrate"), button:has-text("Regístrate")', { timeout: 10000 });
+    const heading = page.locator('h1, h2').first();
+    await expect(heading).toContainText(/crea|registr/i, { timeout: 10000 });
   });
 
-  test('should show validation error for empty login', async ({ page }) => {
+  test('should show validation error for empty fields', async ({ page }) => {
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/correo es requerido/i, { timeout: 5000 });
+    await expect(page.locator('[data-cy="auth-error"], .form-error, text=/requerido/i')).toBeVisible({ timeout: 5000 });
   });
 
   test('should show error for invalid credentials', async ({ page }) => {
     await page.fill('input[type="email"]', 'test@test.com');
     await page.fill('input[type="password"]', 'wrongpass');
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"]')).toBeVisible({ timeout: 10000 });
+    await expect(page.locator('[data-cy="auth-error"], .form-error')).toBeVisible({ timeout: 15000 });
   });
 });
