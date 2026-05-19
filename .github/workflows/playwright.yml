@@ -21,10 +21,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install app dependencies
-        working-directory: app
-        run: npm ci
-
       - name: Install Playwright Browsers
         run: npx playwright install --with-deps
 
