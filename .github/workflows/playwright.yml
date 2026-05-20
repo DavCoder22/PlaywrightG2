@@ -16,16 +16,17 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-          cache: 'npm'
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Install browsers
-        run: npx playwright install chromium
+      - uses: actions/setup-playwright@v4
+        with:
+          browser-version: chromium
+          install-dependencies: true
 
       - name: Run Playwright tests
-        run: npm test
+        run: npx playwright test
 
       - uses: actions/upload-artifact@v4
         if: always()
