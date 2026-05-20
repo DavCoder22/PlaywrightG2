@@ -25,13 +25,13 @@ test.describe('Authentication', () => {
 
   test('should show validation error for empty fields', async ({ page }) => {
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"], .form-error, text=/requerido/i')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('[data-cy="auth-error"]')).toBeVisible({ timeout: 5000 });
   });
 
   test('should show error for invalid credentials', async ({ page }) => {
     await page.fill('input[type="email"]', 'test@test.com');
     await page.fill('input[type="password"]', 'wrongpass');
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"], .form-error')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('[data-cy="auth-error"]')).toBeVisible({ timeout: 15000 });
   });
 });
