@@ -34,6 +34,6 @@ test.describe('TaskFlow Auth Tests', () => {
     await page.fill('input#password', 'password123');
     await page.fill('input#confirm', 'different');
     await page.click('button[type="submit"]');
-    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/coincidan|match/i);
+    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/coinciden|match/i);
   });
 });
