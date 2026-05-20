@@ -24,3 +24,5 @@ jobs:
 
       - name: Run Playwright tests
         run: npx playwright test
+        env:
+          BASE_URL: ${{ secrets.APP_URL }}
