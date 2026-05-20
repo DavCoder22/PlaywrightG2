@@ -1,4 +1,4 @@
-name: Playwright Tests (Firefox)
+name: Playwright Tests
 
 on:
   push:
@@ -21,8 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Firefox
-        run: npx playwright install firefox
+      - name: Install browsers
+        run: npx playwright install chromium
 
       - name: Run Playwright tests
         run: npm test
@@ -30,7 +30,7 @@ jobs:
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: test-results-firefox
+          name: test-results
           path: |
             test-results/
             playwright-report/
