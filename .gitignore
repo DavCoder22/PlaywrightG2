@@ -1,6 +1,24 @@
+# Dependencies
 node_modules/
+
+# Test results
 test-results/
 playwright-report/
+
+# Logs
 *.log
-.DS_Store
+npm-debug.log*
+
+# Environment
 .env
+.env.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
