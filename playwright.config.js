@@ -8,10 +8,8 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: process.env.BASE_URL || 'https://taskflow-sooty-pi.vercel.app',
+    baseURL: 'https://taskflow-sooty-pi.vercel.app',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
   },
   projects: [
     {

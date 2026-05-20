@@ -1,40 +1,39 @@
 const { test, expect } = require('@playwright/test');
 
-test.describe('Authentication', () => {
-  test('should show login page', async ({ page }) => {
-    await page.goto('/');
-    await page.waitForTimeout(5000);
-
-    const screenshot = await page.screenshot();
-    console.log('Screenshot taken, length:', screenshot.length);
-
-    const body = page.locator('body');
-    await expect(body).toBeVisible();
-
-    const text = await body.innerText();
-    console.log('Page text:', text.substring(0, 200));
-
-    expect(text).toContain('TaskFlow');
-  });
-
-  test('should show register page', async ({ page }) => {
-    await page.goto('/register');
-    await page.waitForTimeout(5000);
-
-    const body = page.locator('body');
-    await expect(body).toBeVisible();
-
-    const text = await body.innerText();
-    console.log('Register page text:', text.substring(0, 200));
-
-    expect(text).toContain('TaskFlow');
-  });
-
-  test('should show login form', async ({ page }) => {
+test.describe('TaskFlow Auth Tests', () => {
+  test('login - should show error for empty fields', async ({ page }) => {
     await page.goto('/login');
-    await page.waitForTimeout(5000);
+    await page.click('button[type="submit"]');
+    await expect(page.locator('[data-cy="auth-error"]')).toBeVisible();
+  });
 
-    await expect(page.locator('input[type="email"]')).toBeVisible();
-    await expect(page.locator('input[type="password"]')).toBeVisible();
+  test('login - should validate email required', async ({ page }) => {
+    await page.goto('/login');
+    await page.fill('input[type="password"]', 'password123');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/correo|required/i);
+  });
+
+  test('register - should show error for empty fields', async ({ page }) => {
+    await page.goto('/register');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('[data-cy="auth-error"]')).toBeVisible();
+  });
+
+  test('register - should validate password min length', async ({ page }) => {
+    await page.goto('/register');
+    await page.fill('input#email', 'test@test.com');
+    await page.fill('input#password', '123');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/6 caracteres|min/i);
+  });
+
+  test('register - should validate password match', async ({ page }) => {
+    await page.goto('/register');
+    await page.fill('input#email', 'test@test.com');
+    await page.fill('input#password', 'password123');
+    await page.fill('input#confirm', 'different');
+    await page.click('button[type="submit"]');
+    await expect(page.locator('[data-cy="auth-error"]')).toContainText(/coincidan|match/i);
   });
 });
