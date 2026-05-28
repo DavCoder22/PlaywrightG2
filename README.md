@@ -1,6 +1,6 @@
 # Playwright QA - TaskFlow
 
-Tests de QA automation para aplicaciones web desplegadas.
+Tests de QA automation para aplicaciones web usando Playwright.
 
 ## Arquitectura
 
@@ -8,51 +8,54 @@ Tests de QA automation para aplicaciones web desplegadas.
 PlaywrightG2/
 ├── .github/
 │   └── workflows/
-│       └── playwright.yml     # CI/CD con GitHub Actions
+│       └── playwright.yml       # CI/CD con GitHub Actions
+├── pom/                         # Page Object Model
+│   ├── BasePage.js              # Clase base con métodos comunes
+│   ├── LoginPage.js             # POM de la página de login
+│   ├── RegisterPage.js          # POM de la página de registro
+│   └── index.js                 # Exportaciones
 ├── tests/
-│   ├── smoke.spec.js          # Tests básicos de carga
-│   ├── auth.spec.js           # Tests de autenticación
-│   ├── navigation.spec.js      # Tests de navegación
-│   ├── performance.spec.js    # Tests de rendimiento
-│   └── errors.spec.js         # Tests de errores en consola
-├── playwright.config.js       # Configuración de Playwright
-├── package.json               # Dependencias
-├── .gitignore                 # Archivos ignorados
-└── README.md                  # Este archivo
+│   ├── smoke.spec.js            # Tests básicos de carga y visibilidad
+│   ├── auth.spec.js             # Tests de validación de formularios (usa POM)
+│   ├── navigation.spec.js       # Tests de navegación entre páginas
+│   ├── errors.spec.js           # Tests de errores en consola JS
+│   ├── performance.spec.js      # Tests de rendimiento (métricas reales)
+│   └── e2e-flow.spec.js         # Tests de flujo completo E2E
+├── playwright.config.js         # Config (Chromium, Firefox, WebKit)
+├── package.json
+├── .gitignore
+└── README.md
 ```
 
 ## Comandos
 
 ```bash
-# Instalar dependencias
-npm install
-
-# Ejecutar tests
-npm test
+npm install       # Instalar dependencias
+npm test          # Ejecutar todos los tests
+npm run test:report   # Ver reporte HTML
 ```
 
 ## Configuración
 
-- **URL objetivo**: Variable de entorno `BASE_URL` (secret: `APP_URL`)
-- **Navegador**: Chromium
+- **URL objetivo**: `process.env.BASE_URL` (GitHub secret: `APP_URL`)
+- **Browsers**: Chromium, Firefox, WebKit
+- **CI**: Retry 2 veces en fallo, 1 worker
 
-## Secrets (GitHub)
-
-Agregar en Settings → Secrets → Actions:
-- `APP_URL`: URL del proyecto a testear (ej: https://tu-app.vercel.app)
-
-## Tests Incluidos
+## Tests incluidos
 
 | Archivo | Tipo | Descripción |
 |---------|------|-------------|
-| `smoke.spec.js` | Smoke | Carga básica, formularios visibles |
-| `auth.spec.js` | Funcional | Validaciones de login/register |
-| `navigation.spec.js` | Navigation | Navegación entre páginas, URLs |
-| `performance.spec.js` | Performance | Tiempos de carga |
-| `errors.spec.js` | QA | Errores de consola JS |
+| `smoke.spec.js` | Smoke | Carga de páginas, formularios visibles |
+| `auth.spec.js` | Unit (POM) | Validaciones de login y registro |
+| `navigation.spec.js` | Navigation | Rutas, redirecciones, 404 |
+| `errors.spec.js` | QA | Detección de errores JS en consola |
+| `performance.spec.js` | Perf | Tiempos de carga con `performance.timing` |
+| `e2e-flow.spec.js` | E2E | Flujo completo registro → login → validaciones |
 
 ## CI/CD
 
-GitHub Actions ejecuta los tests automáticamente en push a `main`.
+Ejecuta tests automáticamente en push/PR a `main`.
 
-**URL**: https://github.com/DavCoder22/PlaywrightG2/actions
+**Actions**: https://github.com/DavCoder22/PlaywrightG2/actions
+
+**Secret**: `APP_URL` → Settings → Secrets → Actions
