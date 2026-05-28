@@ -27,6 +27,6 @@ test.describe('Navigation Tests', () => {
 
   test('should have correct page title', async ({ page }) => {
     await page.goto('/');
-    await expect(page).toHaveTitle(/TaskFlow/i);
+    await expect(page).toHaveTitle(/impr3q|Impresiones 3D/i);
   });
 });

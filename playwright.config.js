@@ -8,7 +8,7 @@ module.exports = defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: 'html',
   use: {
-    baseURL: process.env.BASE_URL || APP_URL,
+    baseURL: process.env.BASE_URL || 'https://davcoder22.github.io/Print3dCot/',
     trace: 'on-first-retry',
   },
   projects: [

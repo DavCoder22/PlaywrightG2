@@ -1,6 +1,6 @@
-# Playwright QA - TaskFlow
+# Playwright QA - Print3dCot (impr3q)
 
-Tests de QA automation para aplicaciones web usando Playwright.
+Tests de QA automation para [Print3dCot](https://davcoder22.github.io/Print3dCot/) usando Playwright.
 
 ## Arquitectura
 
@@ -10,18 +10,18 @@ PlaywrightG2/
 │   └── workflows/
 │       └── playwright.yml       # CI/CD con GitHub Actions
 ├── pom/                         # Page Object Model
-│   ├── BasePage.js              # Clase base con métodos comunes
-│   ├── LoginPage.js             # POM de la página de login
-│   ├── RegisterPage.js          # POM de la página de registro
-│   └── index.js                 # Exportaciones
+│   ├── BasePage.js
+│   ├── LoginPage.js
+│   ├── RegisterPage.js
+│   └── index.js
 ├── tests/
-│   ├── smoke.spec.js            # Tests básicos de carga y visibilidad
-│   ├── auth.spec.js             # Tests de validación de formularios (usa POM)
-│   ├── navigation.spec.js       # Tests de navegación entre páginas
-│   ├── errors.spec.js           # Tests de errores en consola JS
-│   ├── performance.spec.js      # Tests de rendimiento (métricas reales)
-│   └── e2e-flow.spec.js         # Tests de flujo completo E2E
-├── playwright.config.js         # Config (Chromium, Firefox, WebKit)
+│   ├── smoke.spec.js
+│   ├── auth.spec.js
+│   ├── navigation.spec.js
+│   ├── errors.spec.js
+│   ├── performance.spec.js
+│   └── e2e-flow.spec.js
+├── playwright.config.js
 ├── package.json
 ├── .gitignore
 └── README.md
@@ -30,27 +30,17 @@ PlaywrightG2/
 ## Comandos
 
 ```bash
-npm install       # Instalar dependencias
-npm test          # Ejecutar todos los tests
+npm install           # Instalar dependencias
+npm test              # Ejecutar todos los tests
 npm run test:report   # Ver reporte HTML
 ```
 
 ## Configuración
 
 - **URL objetivo**: `process.env.BASE_URL` (GitHub secret: `APP_URL`)
+- **Fallback local**: `https://davcoder22.github.io/Print3dCot/`
 - **Browsers**: Chromium, Firefox, WebKit
 - **CI**: Retry 2 veces en fallo, 1 worker
-
-## Tests incluidos
-
-| Archivo | Tipo | Descripción |
-|---------|------|-------------|
-| `smoke.spec.js` | Smoke | Carga de páginas, formularios visibles |
-| `auth.spec.js` | Unit (POM) | Validaciones de login y registro |
-| `navigation.spec.js` | Navigation | Rutas, redirecciones, 404 |
-| `errors.spec.js` | QA | Detección de errores JS en consola |
-| `performance.spec.js` | Perf | Tiempos de carga con `performance.timing` |
-| `e2e-flow.spec.js` | E2E | Flujo completo registro → login → validaciones |
 
 ## CI/CD
 
@@ -58,4 +48,4 @@ Ejecuta tests automáticamente en push/PR a `main`.
 
 **Actions**: https://github.com/DavCoder22/PlaywrightG2/actions
 
-**Secret**: `APP_URL` → Settings → Secrets → Actions
+**Secret**: `APP_URL` → Settings → Secrets → Actions (valor: `https://davcoder22.github.io/Print3dCot/`)

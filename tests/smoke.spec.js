@@ -4,7 +4,7 @@ test.describe('Smoke Tests', () => {
   test('should load the main page', async ({ page }) => {
     await page.goto('/');
     await page.waitForLoadState('networkidle');
-    await expect(page).toHaveTitle(/TaskFlow/i);
+    await expect(page).toHaveTitle(/impr3q|Impresiones 3D/i);
   });
 
   test('should show login form', async ({ page }) => {
