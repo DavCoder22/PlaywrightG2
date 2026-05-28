@@ -18,7 +18,7 @@ test.describe('E2E Auth Flow', () => {
     await expect(register.errorMsg).toContainText(/coinciden/i);
   });
 
-  test('full login to register navigation flow', async ({ page }) => {
+  test('full login with invalid credentials', async ({ page }) => {
     const login = new LoginPage(page);
     await login.goto();
 
@@ -28,9 +28,9 @@ test.describe('E2E Auth Flow', () => {
     await expect(login.errorMsg).toBeVisible();
 
     await login.login('invalid@test.com', 'test');
-    await page.waitForTimeout(1000);
-    const currentUrl = page.url();
-    expect(currentUrl).not.toMatch(/\/app\//);
+    await page.waitForLoadState('networkidle');
+    expect(page.url()).not.toMatch(/\/app\//);
+    await expect(login.errorMsg).toBeVisible();
 
     await login.clickRegister();
     await expect(page).toHaveURL(/register/);

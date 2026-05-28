@@ -16,11 +16,18 @@ test.describe('Auth Tests', () => {
     await expect(login.errorMsg).toContainText(/correo|required/i);
   });
 
-  test('register - shows error for empty fields', async ({ page }) => {
+  test('register - validates email required', async ({ page }) => {
     const register = new RegisterPage(page);
     await register.goto();
-    await register.submitBtn.click();
-    await expect(register.errorMsg).toBeVisible();
+    await register.register('', 'password123', 'password123');
+    await expect(register.errorMsg).toContainText(/correo es requerido|required/i);
+  });
+
+  test('register - validates password required', async ({ page }) => {
+    const register = new RegisterPage(page);
+    await register.goto();
+    await register.register('test@test.com', '', '');
+    await expect(register.errorMsg).toContainText(/contraseña es requerida|required/i);
   });
 
   test('register - validates password min length', async ({ page }) => {
